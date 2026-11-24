@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerHub - Job Search</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #f4f7fc;
+    color: #222;
+}
+
+/* Navbar */
+header {
+    background: white;
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px #ddd;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+    color: #315efb;
+}
+
+nav a {
+    text-decoration: none;
+    color: #444;
+    margin-left: 25px;
+    font-weight: 500;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(120deg, #315efb, #7948e8);
+    color: white;
+    text-align: center;
+    padding: 65px 20px;
+}
+
+.hero h1 {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+.search-box {
+    background: white;
+    max-width: 750px;
+    margin: auto;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 13px;
+    border: none;
+    outline: none;
+    min-width: 0;
+}
+
+.search-box button {
+    background: #315efb;
+    color: white;
+    border: none;
+    padding: 13px 25px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+/* Main Section */
+.container {
+    padding: 40px 7%;
+}
+
+.section-title {
+    font-size: 27px;
+    margin-bottom: 25px;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.filters select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    background: white;
+    cursor: pointer;
+}
+
+/* Job Cards */
+.job-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.job-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px #0000000d;
+    transition: 0.3s;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px #00000015;
+}
+
+.job-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.company-icon {
+    width: 48px;
+    height: 48px;
+    background: #e9edff;
+    color: #315efb;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.save {
+    border: none;
+    background: none;
+    font-size: 23px;
+    cursor: pointer;
+}
+
+.job-card h3 {
+    margin: 18px 0 7px;
+    font-size: 21px;
+}
+
+.company {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 17px;
+}
+
+.tag {
+    background: #eef1ff;
+    color: #315efb;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.salary {
+    font-weight: bold;
+    color: #16a36a;
+    margin-bottom: 18px;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.card-buttons button {
+    flex: 1;
+    padding: 11px;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.details {
+    background: #eef1ff;
+    color: #315efb;
+}
+
+.apply {
+    background: #315efb;
+    color: white;
+}
+
+.card-buttons button:hover {
+    opacity: 0.8;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0009;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    z-index: 10;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: appear 0.3s;
+}
+
+@keyframes appear {
+    from {transform: scale(0.8); opacity: 0;}
+    to {transform: scale(1); opacity: 1;}
+}
+
+.close {
+    float: right;
+    border: none;
+    background: none;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    margin: 20px 0 12px;
+    color: #315efb;
+}
+
+.modal-content p {
+    margin: 12px 0;
+    line-height: 1.5;
+}
+
+.no-jobs {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 35px;
+    background: white;
+    border-radius: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    background: #17254b;
+    color: white;
+    margin-top: 40px;
+}
+
+/* Responsive */
+@media(max-width: 700px) {
+    header {
+        padding: 15px 5%;
+    }
+
+    nav a {
+        margin-left: 8px;
+        font-size: 13px;
+    }
+
+    .hero h1 {
+        font-size: 27px;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .search-box button {
+        width: 100%;
+    }
+
+    .container {
+        padding: 30px 5%;
+    }
+
+    .job-list {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: 23px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">CareerHub.</div>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#jobs">Find Jobs</a>
+        <a href="#about">About</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Find Your Dream Job Today!</h1>
+    <p>Explore thousands of job opportunities and build your future.</p>
+
+    <div class="search-box">
+        <input type="text" id="searchInput"
+        placeholder="Search job title or company...">
+
+        <input type="text" id="locationInput"
+        placeholder="Enter location...">
+
+        <button onclick="filterJobs()">Search</button>
+    </div>
+</section>
+
+<main class="container" id="jobs">
+
+    <h2 class="section-title">Explore Latest Jobs</h2>
+
+    <div class="filters">
+
+        <select id="categoryFilter" onchange="filterJobs()">
+            <option value="">All Categories</option>
+            <option value="IT">IT & Software</option>
+            <option value="Design">Design</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Finance">Finance</option>
+        </select>
+
+        <select id="typeFilter" onchange="filterJobs()">
+            <option value="">All Job Types</option>
+            <option value="Full Time">Full Time</option>
+            <option value="Part Time">Part Time</option>
+            <option value="Internship">Internship</option>
+        </select>
+
+        <select id="sortFilter" onchange="filterJobs()">
+            <option value="">Default Order</option>
+            <option value="latest">Latest First</option>
+        </select>
+
+    </div>
+
+    <div class="job-list" id="jobList"></div>
+
+</main>
+
+<!-- Job Details Modal -->
+<div class="modal" id="jobModal">
+    <div class="modal-content">
+        <button class="close" onclick="closeModal()">×</button>
+        <div id="modalDetails"></div>
+    </div>
+</div>
+
+<footer id="about">
+    <h3>CareerHub</h3>
+    <p>Connecting Talent With Opportunities.</p>
+    <p>© 2026 CareerHub. All Rights Reserved.</p>
+</footer>
+
+<script>
+
+// Job Data
+const jobs = [
+{
+id: 1,
+title: "Frontend Developer",
+company: "Tech Solutions",
+location: "Bangalore",
+category: "IT",
+type: "Full Time",
+salary: "₹4 - 6 LPA",
+icon: "💻",
+description: "Develop responsive websites using HTML, CSS and JavaScript.",
+skills: "HTML, CSS, JavaScript, React",
+date: "2026-11-24"
+},
+{
+id: 2,
+title: "UI/UX Designer",
+company: "Creative Studio",
+location: "Delhi",
+category: "Design",
+type: "Full Time",
+salary: "₹3 - 5 LPA",
+icon: "🎨",
+description: "Design user-friendly interfaces and improve user experience.",
+skills: "Figma, UI Design, UX Research",
+date: "2026-11-23"
+},
+{
+id: 3,
+title: "Python Developer Intern",
+company: "CodeTech",
+location: "Remote",
+category: "IT",
+type: "Internship",
+salary: "₹8,000/month",
+icon: "🐍",
+description: "Work on Python projects and learn real-world development.",
+skills: "Python, Programming, SQL",
+date: "2026-11-22"
+},
+{
+id: 4,
+title: "Digital Marketing Executive",
+company: "Growth Media",
+location: "Mumbai",
+category: "Marketing",
+type: "Full Time",
+salary: "₹3 - 4 LPA",
+icon: "📈",
+description: "Manage social media campaigns and digital marketing strategies.",
+skills: "SEO, Social Media, Content",
+date: "2026-11-21"
+},
+{
+id: 5,
+title: "Data Entry Operator",
+company: "Smart Services",
+location: "Varanasi",
+category: "Finance",
+type: "Part Time",
+salary: "₹10,000/month",
+icon: "📊",
+description: "Manage records, update spreadsheets and maintain databases.",
+skills: "MS Excel, Typing, Data Management",
+date: "2026-11-20"
+},
+{
+id: 6,
+title: "Java Developer",
+company: "NextGen Software",
+location: "Hyderabad",
+category: "IT",
+type: "Full Time",
+salary: "₹5 - 7 LPA",
+icon: "☕",
+description: "Build software applications using Java and database systems.",
+skills: "Java, SQL, OOP",
+date: "2026-11-19"
+},
+{
+id: 7,
+title: "Graphic Designer Intern",
+company: "Pixel World",
+location: "Remote",
+category: "Design",
+type: "Internship",
+salary: "₹6,000/month",
+icon: "🖌️",
+description: "Create graphics and visual content for digital platforms.",
+skills: "Canva, Photoshop, Creativity",
+date: "2026-11-18"
+},
+{
+id: 8,
+title: "Account Assistant",
+company: "Finance Point",
+location: "Lucknow",
+category: "Finance",
+type: "Part Time",
+salary: "₹12,000/month",
+icon: "💰",
+description: "Assist with financial records and daily accounting work.",
+skills: "Excel, Accounting, Tally",
+date: "2026-11-17"
+}
+];
+
+let savedJobs = [];
+
+function displayJobs(data) {
+
+    const jobList = document.getElementById("jobList");
+
+    jobList.innerHTML = "";
+
+    if(data.length === 0) {
+        jobList.innerHTML =
+        '<div class="no-jobs">😔 No jobs found. Try another search!</div>';
+        return;
+    }
+
+    data.forEach(job => {
+
+        const isSaved = savedJobs.includes(job.id);
+
+        jobList.innerHTML += `
+        <div class="job-card">
+
+            <div class="job-top">
+                <div class="company-icon">${job.icon}</div>
+
+                <button class="save"
+                onclick="toggleSave(${job.id})">
+                ${isSaved ? "❤️" : "🤍"}
+                </button>
+            </div>
+
+            <h3>${job.title}</h3>
+
+            <p class="company">
+                ${job.company} • ${job.location}
+            </p>
+
+            <div class="tags">
+                <span class="tag">${job.category}</span>
+                <span class="tag">${job.type}</span>
+            </div>
+
+            <p class="salary">${job.salary}</p>
+
+            <div class="card-buttons">
+                <button class="details"
+                onclick="showDetails(${job.id})">
+                View Details
+                </button>
+
+                <button class="apply"
+                onclick="applyJob('${job.title}')">
+                Apply Now
+                </button>
+            </div>
+
+        </div>
+        `;
+    });
+}
+
+// Search and Filters
+function filterJobs() {
+
+    const search = document.getElementById("searchInput")
+    .value.toLowerCase();
+
+    const location = document.getElementById("locationInput")
+    .value.toLowerCase();
+
+    const category = document.getElementById("categoryFilter").value;
+
+    const type = document.getElementById("typeFilter").value;
+
+    const sort = document.getElementById("sortFilter").value;
+
+    let filtered = jobs.filter(job => {
+
+        return (
+            (job.title.toLowerCase().includes(search) ||
+             job.company.toLowerCase().includes(search)) &&
+
+            job.location.toLowerCase().includes(location) &&
+
+            (category === "" || job.category === category) &&
+
+            (type === "" || job.type === type)
+        );
+
+    });
+
+    if(sort === "latest") {
+        filtered.sort((a,b) =>
+            new Date(b.date) - new Date(a.date)
+        );
+    }
+
+    displayJobs(filtered);
+}
+
+// Show Job Details
+function showDetails(id) {
+
+    const job = jobs.find(j => j.id === id);
+
+    document.getElementById("modalDetails").innerHTML = `
+        <h2>${job.title}</h2>
+
+        <p><b>Company:</b> ${job.company}</p>
+        <p><b>Location:</b> ${job.location}</p>
+        <p><b>Category:</b> ${job.category}</p>
+        <p><b>Job Type:</b> ${job.type}</p>
+        <p><b>Salary:</b> ${job.salary}</p>
+        <p><b>Description:</b> ${job.description}</p>
+        <p><b>Required Skills:</b> ${job.skills}</p>
+
+        <button class="apply"
+        style="width:100%; padding:13px; margin-top:15px;"
+        onclick="applyJob('${job.title}')">
+        Apply Now
+        </button>
+    `;
+
+    document.getElementById("jobModal").style.display = "flex";
+}
+
+// Close Modal
+function closeModal() {
+    document.getElementById("jobModal").style.display = "none";
+}
+
+// Save Jobs
+function toggleSave(id) {
+
+    if(savedJobs.includes(id)) {
+        savedJobs = savedJobs.filter(jobId => jobId !== id);
+    } else {
+        savedJobs.push(id);
+    }
+
+    filterJobs();
+}
+
+// Apply Job
+function applyJob(title) {
+    alert("You selected: " + title +
+    "\nThis is a demo website. Real applications are not submitted.");
+}
+
+// Search while typing
+document.getElementById("searchInput")
+.addEventListener("input", filterJobs);
+
+document.getElementById("locationInput")
+.addEventListener("input", filterJobs);
+
+// Close modal when clicking outside
+document.getElementById("jobModal")
+.addEventListener("click", function(e) {
+    if(e.target === this) closeModal();
+});
+
+// Initial Display
+displayJobs(jobs);
+
+</script>
+
+</body>
+</html>
